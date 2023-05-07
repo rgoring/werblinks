@@ -1,0 +1,124 @@
+@charset "utf-8";
+/* CSS Document */
+
+.workspacebody {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.linkobj {
+	width:100%;
+	height:auto;
+	background:#ddd;
+	margin:2px 0px;
+	position:relative;
+	z-index:40;
+}
+
+.linkurl {
+	text-decoration:none;
+	color:blue;
+	line-height:16px;
+	font-size:13px;
+	width:100%;
+	position:relative;
+	z-index:41;
+}
+
+.linkurl:hover {
+	text-decoration:underline;
+}
+
+.grpobj {
+	background:#fff;
+	border:1px solid #369;
+	min-height:40px;
+	z-index:10;
+	position:absolute;
+}
+
+.grphandle,
+.grptitle {
+	background:#369;
+	color:#fff;
+	text-decoration:none;
+	width:100%;
+	text-align:center;
+	position:relative;
+	line-height:22px;
+}
+
+.htmlobj {
+	position:absolute;
+}
+
+.toolbar {
+}
+
+.lnk_toolbar {
+	position:absolute;
+	top:0px;
+	right:0px;
+	display:none;
+	width:auto;
+	z-index:99;
+	background:#ddd;
+	height:16px;
+}
+
+.grp_toolbar {
+	position:absolute;
+	top:0px;
+	right:0px;
+	display:none;
+	width:auto;
+	z-index:99;
+	background:#369;
+	font-size:14px;
+}
+
+.htmlobj {
+	border:1px solid #369;
+	z-index: 30;
+	margin: 0px;
+	padding: 0px;
+	background: #ffffff;
+}
+
+.htmlobj_content {
+	margin: 0;
+	padding: 0;
+}
+
+.htmlobj_title {
+	background-color: #369;
+	color: #ffffff;
+	border-left: 1px solid #000;
+	border-top: 1px solid #000;
+	border-right: 1px solid #000;
+	padding-left: 2px;
+	padding-right: 2px;
+	font-size: 13px;
+	width: auto;
+	position: absolute;
+	height: 18px;
+	top: -20px;
+	left: -1px;
+}
+
+.hobj_toolbar {
+	background-color: #ddd;
+	color: #ffffff;
+	border-left: 1px solid #369;
+	border-top: 1px solid #369;
+	border-right: 1px solid #369;
+	padding-left: 2px;
+	padding-right: 2px;
+	font-size: 13px;
+	width: auto;
+	position: absolute;
+	height: 18px;
+	top: -20px;
+	right: -1px;
+	display:none;
+}
+

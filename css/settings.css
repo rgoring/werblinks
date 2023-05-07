@@ -1,0 +1,22 @@
+@charset "utf-8";
+
+.content {
+	border:1px solid black;
+	width:60%;
+	height:auto;
+	margin:50px;
+}
+
+.setting_lcol {
+	width:30%;
+	text-align:right;
+	float:left;
+}
+
+.setting_rcol {
+	margin-left:15px;
+	text-align:right;
+	float:left;
+	display:inline;
+	width:auto;
+}

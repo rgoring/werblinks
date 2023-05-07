@@ -1,0 +1,103 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* main menu */
+.menu {
+	list-style:none;
+	margin:0;
+	padding:0;
+	font-weight:normal;
+	font-size:16px;
+}
+
+.util {
+	margin:0;
+	padding:0;
+	font-weight:normal;
+	font-size:16px;
+	float:right;
+	line-height:30px;
+}
+
+.util a {
+	text-align:center;
+	text-decoration:none;
+	color:#fff;
+	padding:0 10px;
+}
+
+/* main menu items */
+.menu li {
+	float:left;
+	padding:0px;
+	margin:0px;
+}
+
+.menu li a {
+	line-height:30px;
+	text-align:center;
+	text-decoration:none;
+	color:#fff;
+	padding:0 10px;
+}
+
+.menu li:hover {
+	background:#444;
+}
+
+/* sub menu */
+.menu li ul {
+	display:none;
+	list-style:none;
+	position:absolute;
+	background:#369;
+	margin:0px;
+	padding:0px;
+	border:1px solid #444;
+	z-index:500;
+}
+
+.menu li:hover ul {
+	display:block;
+}
+
+/* sub menu items */
+.menu li ul li {
+	float:none;
+	display:block;
+	margin:0;
+	width:150px;
+	padding:0 5px;
+	line-height:25px;
+}
+
+.menu li ul div {
+	float:none;
+	display:block;
+}
+
+.menu li ul li a {
+	line-height:25px;
+	padding:0;
+	margin:0;
+	color:#fff;
+}
+
+.menu li ul li:hover {
+	text-decoration:underline;
+}
+
+.menu li ul .bucket {
+	float:none;
+	display:block;
+}
+
+.menu div a {
+	color:blue;
+	line-height:16px;
+	padding:0px;
+}
+
+.bucket {
+	min-width:150px;
+}

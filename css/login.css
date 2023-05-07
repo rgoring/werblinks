@@ -1,0 +1,51 @@
+@charset "utf-8";
+
+.content {
+	border:1px solid black;
+	margin:70px;
+	height:450px;
+	min-width:350px;
+}
+
+.column {
+	float:left;
+	width:33%;
+	min-width:100px;
+}
+
+.colcontent {
+	padding:10px;
+}
+
+.form_input {
+	width:100%;
+}
+
+.leftwrap {
+	float:left;
+	width:100%;
+}
+
+.leftpane {
+	margin-right:400px;
+}
+
+.rightpane {
+	float:left;
+	width:400px;
+	margin-left:-400px;
+}
+
+.regbox, .signinbox {
+	width:350px;
+	border:1px solid black;
+	margin-top:30px;
+}
+
+.reg_body, .signin_body {
+	width:100%;
+}
+
+.subtitle {
+	text-align:center;
+}

@@ -1,0 +1,3 @@
+Options +FollowSymlinks
+RewriteEngine on
+RewriteRule ^(.*)$ /?r=home/index&ws=$1 [NC]
