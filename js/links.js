@@ -5,6 +5,7 @@ $(document).ready(function() {
 	$("#linkdiag").dialog({autoOpen: false, buttons:{"Ok":linkdiagok}, title:"Link Details", resizable: false, draggable: false, width: 350, modal: true});
 	$("#groupdiag").dialog({autoOpen: false, buttons:{"Ok":groupdiagok}, title:"Group Details", resizable: false, draggable: false, width: 300, modal: true});
 	$("#wsdiag").dialog({autoOpen: false, buttons:{"Ok":workspacediagok}, title:"Workspace Details", resizable: false, draggable: false, width: 300, modal: true});
+	$("#wsrenamediag").dialog({autoOpen: false, buttons:{"Ok":workspacerenamediagok}, title:"Rename Workspace", resizable: false, draggable: false, width: 300, modal: true});
 	$("#hobjdiag").dialog({autoOpen: false, buttons:{"Ok":hobjdiagok}, title:"HTML Object Details", resizable: false, draggable: false, width: 450, modal: true});
    
 	//query server for workspace objects
@@ -61,6 +62,12 @@ function server_parse_data(jdata, status, jqXHR)
 		});
 	}
 
+	if (jdata.wsrename) {
+		$.each(jdata.wsrename, function(i, ws) {
+			workspace_rename(ws.oldname, ws.newname);
+		});
+	}
+
 	$("#loadimg").hide();
 }
 
@@ -102,8 +109,26 @@ function workspace_new(ws)
 	var wsmenuitem = document.createElement("li");
 	var url = document.createElement("a");
 	url.setAttribute("href", "/ws/"+ws.name);
+	url.className = "ws_link";
+	url.id = "ws_"+ws.name;
 	url.innerHTML = ws.name;
 	wsmenuitem.appendChild(url);
+
+	//base toolbar element
+	var toolbar = document.createElement("span");
+	toolbar.className = "toolbar ws_toolbar";
+	toolbar.style.float = "right";
+	//edit icon
+	var editico = document.createElement("a");
+	editico.id = "ws_editico";
+	editico.className = "ws_edit"
+	editico.setAttribute("href", "javascript:void(0)");
+	editico.innerHTML = '<img src="/images/edit_ico.png" border="0" height="18px" title="Rename Workspace">';
+	$(editico).click(workspace_rename_evt);
+	toolbar.appendChild(editico);
+
+	wsmenuitem.appendChild(toolbar);
+
 	$("#wsmenu").append(wsmenuitem);
 }
 
@@ -113,11 +138,34 @@ function workspace_add()
 	$("#wsdiag").dialog("open");
 }
 
+function workspace_rename(oldname, newname)
+{
+	$("#ws_"+oldname).id = "ws_"+newname;
+	$("#ws_"+oldname).attr("href", "/ws/"+newname);
+	$("#ws_"+oldname).text(newname);
+}
+
+function workspace_rename_evt(evtobj)
+{
+	var oldname = $(this).closest("li").find("a").text();
+	$("#wsrenamediag").find("#wsnewname").val(oldname);
+	$("#wsrenamediag").find("#wsoldname").val(oldname);
+	$("#wsrenamediag").dialog("open");
+}
+
 function workspacediagok()
 {
 	var name = $(this).find("#wsname").val();
 	//alert("adding workspace "+name);
 	server_action({r:"workspace/add",name:name}, server_parse_data);
+	$(this).dialog("close");
+}
+
+function workspacerenamediagok()
+{
+	var newname = $(this).find("#wsnewname").val();
+	var oldname = $(this).find("#wsoldname").val();;
+	server_action({r:"workspace/rename",oldname:oldname,newname:newname}, server_parse_data);
 	$(this).dialog("close");
 }
 
@@ -356,7 +404,6 @@ function link_add(lnk, grp)
 	$("#linkdiag").data("link", lnk);
 	$("#linkdiag").data("group", grp);
 }
-
 
 function linkdiagok()
 {

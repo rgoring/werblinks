@@ -52,6 +52,10 @@
 <div style="width:60px; text-align:right;float:left;">Name:</div><div style="float:left;"><input id="wsname" type="text" size="20"></div><div style="clear:both;" />
 </div>
 
+<div id="wsrenamediag" align="center">
+<div style="width:60px; text-align:right;float:left;">Name:</div><div style="float:left;"><input id="wsnewname" type="text" size="20"></div><input id="wsoldname" type="hidden"></div><div style="clear:both;" />
+</div>
+
 <div id="hobjdiag" align="center">
 <div style="width:60px; text-align:right;float:left;">Name:</div><div style="float:left;"><input id="hobjname" type="text" size="20"></div><div style="clear:both;" />
 <div style="width:60px; text-align:right;float:left;">Code:</div><div style="float:left;"><textarea id="hobjcode" cols="45" rows="10"></textarea></div><div style="clear:both;" />

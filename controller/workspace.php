@@ -41,6 +41,23 @@ class workspaceController extends Control
 		}
 		$response->render();
 	}
+
+	public static function rename()
+	{
+		global $params;
+		if (!$params->user->logged_in()) {
+			throw new Exception("Not logged in");
+		}
+
+		$response = new DataResponse();
+
+		try {
+			$response->wsrename = Workspace::renamews($_POST['oldname'], $_POST['newname']);
+		} catch (Exception $e) {
+			$response->err = $e->getMessage();
+		}
+		$response->render();
+	}
 }
 
 ?>

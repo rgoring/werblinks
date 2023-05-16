@@ -136,6 +136,37 @@ class Workspace
 
 		return array($ws);
 	}
+
+	public static function renamews($oldname, $newname)
+	{
+		if (!self::valid_wsname($newname)) {
+			throw new Exception("Invalid workspace name. Only: numbers, letters, underscore, dashes");
+		}
+		
+		global $params;
+		$mysql = Database::get_database();
+		
+		//no duplicate names
+		if (!$mysql->query("SELECT * FROM werblinks.workspaces WHERE userid=? AND name=?", array($params->user->get_id(), $newname))) {
+			throw new Exception("Unable to duplicate check workspace name");
+		}
+		if ($mysql->get_num_rows() > 0) {
+			throw new Exception("A workspace with that name already exists");
+		}
+		
+		//rename the workspace
+		if (!$mysql->query("UPDATE werblinks.workspaces SET name=? WHERE name=? AND userid=?",
+						   array($newname, $oldname, $params->user->get_id()))) {
+							throw new Exception("Unable to rename workspace");
+		}
+		
+		$ws = array();
+		$ws['newname'] = $newname;
+		$ws['oldname'] = $oldname;
+		$ws['workspaceid'] = $mysql->get_last_id();
+
+		return array($ws);
+	}
 }
 
 ?>
