@@ -48,6 +48,10 @@
 <div style="width:60px; text-align:right;float:left;">Name:</div><div style="float:left;"><input id="groupname" type="text" size="20"></div><div style="clear:both;" />
 </div>
 
+<div id="groupmvdiag" align="center">
+<div style="width:80px; text-align:right;float:left;">Workspace:</div><div style="float:left;"><select name="wsname" id="groupwssel"></select></div><div style="clear:both;" />
+</div>
+
 <div id="wsdiag" align="center">
 <div style="width:60px; text-align:right;float:left;">Name:</div><div style="float:left;"><input id="wsname" type="text" size="20"></div><div style="clear:both;" />
 </div>

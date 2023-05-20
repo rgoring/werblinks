@@ -1,6 +1,7 @@
 <?
 
 require_once(_BASE_PATH . '/model/group.php');
+require_once(_BASE_PATH . '/model/workspace.php');
 
 class groupController extends Control
 {
@@ -86,6 +87,23 @@ class groupController extends Control
 		try {
 			$response->groups = Group::update($_POST['id'], $_POST['name']);
 			$response->success = true;
+		} catch (Exception $e) {
+			$response->err = $e->getMessage();
+		}
+		$response->render();
+	}
+
+	public static function movews()
+	{
+		global $params;
+		if (!$params->user->logged_in()) {
+			throw new Exception("Not logged in");
+		}
+
+		$response = new DataResponse();
+
+		try {
+			$response->groupmv = Group::move_to_workspace_name($_POST['id'], $_POST['wsname']);
 		} catch (Exception $e) {
 			$response->err = $e->getMessage();
 		}

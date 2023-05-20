@@ -70,6 +70,22 @@ class Workspace
 //		return $rows;
 	}
 
+	public static function get_wsid_from_name($wsname)
+	{
+		global $params;
+		$mysql = Database::get_database();
+		
+		if (!$mysql->query("SELECT * FROM werblinks.workspaces WHERE userid=? AND name=?", array($params->user->get_id(), $wsname))) {
+			throw new Exception("Unable to select html objects");
+		}
+		if ($mysql->get_num_rows() != 1) {
+			throw new Exception("Unable to select workspace $wsname");
+		}
+		
+		$row = $mysql->fetch_row();
+		return $row['workspaceid'];
+	}
+
 	public static function change($ws)
 	{
 		if (!isset($ws) || $ws == "") {

@@ -6,7 +6,7 @@ $(document).ready(function() {
 	$("#groupdiag").dialog({autoOpen: false, buttons:{"Ok":groupdiagok}, title:"Group Details", resizable: false, draggable: false, width: 300, modal: true});
 	$("#wsdiag").dialog({autoOpen: false, buttons:{"Ok":workspacediagok}, title:"Workspace Details", resizable: false, draggable: false, width: 300, modal: true});
 	$("#wsrenamediag").dialog({autoOpen: false, buttons:{"Ok":workspacerenamediagok}, title:"Rename Workspace", resizable: false, draggable: false, width: 300, modal: true});
-	$("#hobjdiag").dialog({autoOpen: false, buttons:{"Ok":hobjdiagok}, title:"HTML Object Details", resizable: false, draggable: false, width: 450, modal: true});
+	$("#groupmvdiag").dialog({autoOpen: false, buttons:{"Ok":group_wsmove_diagok}, title:"Move Group", resizable: false, draggable: false, width: 300, modal: true});
    
 	//query server for workspace objects
 	server_action({r:"workspace/init"}, server_parse_data);
@@ -99,6 +99,12 @@ function server_get_update(jdata, status, jqXHR)
 			var hcode = $("#hobj"+hobj.htmlid+" .htmlobj_content");
 			$(htitle).html(hobj.name);
 			$(hcode).html(hobj.html);
+		});
+	}
+
+	if (jdata.groupmv) {
+		$.each(jdata.groupmv, function(i, grp) {
+			group_move(grp);
 		});
 	}
 }
@@ -206,6 +212,32 @@ function groupdiagok()
 	$(this).dialog("close");
 }
 
+function group_startwsmove(grp)
+{
+	$("#groupmvdiag").data("group", grp);
+
+	// clear out the select options before repopulating it
+	$('#groupwssel').find('option').remove().end()
+	
+	$("#wsmenu > li > a").each(function() {
+		if ($(this).text() != "New Workspace") {
+			$('#groupwssel').append($("<option></option>")
+							.attr("value", $(this).text())
+							.text($(this).text()));
+		}
+	});
+
+	$("#groupmvdiag").dialog("open");
+}
+
+function group_wsmove_diagok()
+{
+	var grp = $(this).data("group");
+	var wsname = $(this).find("#groupwssel").val();
+	server_action({r:"group/movews",wsname:wsname,id:$(grp).data("dbid")}, server_get_update);
+	$(this).dialog("close");
+}
+
 
 function obj_hover(eventObject)
 {
@@ -246,6 +278,11 @@ function group_stkytog(evtobj)
 	server_action({r:"group/sticky",id:grp.data("dbid")}, server_check_err);
 }
 
+function group_wsmove(evtobj)
+{
+	group_startwsmove($(this).closest('.grpobj'));
+}
+
 function group_launch(evtobj)
 {
 	$(this).closest(".grpobj").find(".linkurl").each(function(index) {
@@ -262,6 +299,14 @@ function group_del(evtobj)
 	}
 	server_action({r:"group/del",id:grp.data("dbid")}, server_check_err);
 	grp.remove();
+}
+
+function group_move(grpdata)
+{
+	if (grpdata.nomove == 1) {
+		return;
+	}
+	$("#grp"+grpdata.id).remove();
 }
 
 function group_get_toolbar()
@@ -288,6 +333,15 @@ function group_get_toolbar()
 	$(stickyico).click(group_stkytog);
 	$(stickyico).hide();
 	toolbar.appendChild(stickyico);
+
+	//workspace move icon
+	var wsmoveico = document.createElement("a");
+	wsmoveico.id = "wsmove";
+	wsmoveico.setAttribute("href", "javascript:void(0)");
+	wsmoveico.innerHTML = '<img src="/images/transfer_ico.png" border="0" title="Move Workspace">';
+	$(wsmoveico).click(group_wsmove);
+	$(wsmoveico).hide();
+	toolbar.appendChild(wsmoveico);
 
 	//edit icon
 	var editico = document.createElement("a");

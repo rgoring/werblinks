@@ -149,6 +149,42 @@ class Group
 		return array($grp);
 	}
 
+	public static function move_to_workspace_name($groupid, $wsname)
+	{
+		global $params;
+
+		// get the new workspace id
+		$wsid = Workspace::get_wsid_from_name($wsname);
+
+		if ($params->user->wsid == $wsid) {
+			// no need to update the database, they selected the same workspace
+			$grp = array();
+			$grp['id'] = $groupid;
+			$grp['nomove'] = 1;
+			return array($grp);
+		}
+
+		$mysql = Database::get_database();
+
+		// change the group workspace id to the new workspace id
+		$mysql->query("UPDATE werblinks.groups SET workspaceid=? WHERE groupid=? AND userid=?", array($wsid, $groupid, $params->user->get_id()));
+		if (!$mysql->get_result()) {
+			throw new Exception("Unable to update group workspace");
+		}
+
+		// change all links for the current group id + workspace id to the new workspace id
+		$mysql->query("UPDATE werblinks.links SET workspaceid=? WHERE groupid=? AND userid=?", array($wsid, $groupid, $params->user->get_id()));
+		if (!$mysql->get_result()) {
+			throw new Exception("Unable to update links for group workspace");
+		}
+
+		$grp = array();
+		$grp['newws'] = $wsname;
+		$grp['id'] = $groupid;
+
+		return array($grp);
+	}
+
 	public static function sticky($id)
 	{
 		if (!isset($id) || !is_numeric($id) || $id < 0) {
