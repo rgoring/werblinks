@@ -20,7 +20,6 @@ class Link
 		//}
 		return true;
 	}
-
 	private static function valid_url(&$url)
 	{
 		if (!isset($url)) {
@@ -32,8 +31,11 @@ class Link
 			$url = "https://".$url;
 		}
 
-		//check for illegal characters & length
-		if (!preg_match('/^[A-Za-z0-9~_?#\/\s=,.:+%\-&]{1,300}$/i', $url)) {
+		if (strlen($url) > 600) {
+			return false;
+		}
+
+		if (filter_var($url, FILTER_VALIDATE_URL) === false) {
 			return false;
 		}
 		return true;
